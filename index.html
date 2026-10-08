@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Shared Links</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #222;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin-bottom: 24px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: 0;
+      border-radius: 8px;
+      padding: 11px 16px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: #2563eb;
+      color: white;
+    }
+
+    .btn-success {
+      background: #16a34a;
+      color: white;
+    }
+
+    .history-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .history-item:last-child {
+      border-bottom: 0;
+    }
+
+    .history-text {
+      flex: 1;
+      word-break: break-all;
+    }
+
+    .empty {
+      color: #888;
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    @media (max-width: 500px) {
+      body {
+        padding: 16px;
+      }
+
+      .history-item {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .history-item button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>Shared Links</h1>
+
+    <div class="card">
+
+      <label for="txt1">txt1</label>
+
+      <input
+        id="txt1"
+        type="text"
+        placeholder="https://example.com"
+      >
+
+      <div class="buttons">
+
+        <button
+          class="btn-primary"
+          onclick="generateText()"
+        >
+          Generate
+        </button>
+
+        <button
+          class="btn-success"
+          onclick="saveHistory()"
+        >
+          Save
+        </button>
+
+        <button
+          onclick="openCurrentLink()"
+        >
+          Open Link
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="card">
+
+      <h2>History</h2>
+
+      <div id="historyList">
+
+        <div class="empty">
+          No history yet
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    let txt1 = "";
+
+    function generateText() {
+
+      const randomText =
+        Math.random()
+          .toString(36)
+          .substring(2, 10);
+
+      txt1 = "https://www." + randomText + ".com";
+
+      document.getElementById("txt1").value = txt1;
+    }
+
+    function saveHistory() {
+
+      const value =
+        document.getElementById("txt1").value.trim();
+
+      if (!value) {
+        alert("Please enter a URL");
+        return;
+      }
+
+      txt1 = value;
+
+      // Firebase จะมาใส่ตรงนี้
+      console.log("Save:", txt1);
+
+      alert("Saved!");
+    }
+
+    function openCurrentLink() {
+
+      const value =
+        document.getElementById("txt1").value.trim();
+
+      if (!value) {
+        alert("No URL");
+        return;
+      }
+
+      window.open(value, "_blank");
+    }
+
+  </script>
+
+</body>
+</html>
