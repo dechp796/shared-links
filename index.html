@@ -1,226 +1,975 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="en" class="dark"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Dark QR Code Generator</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0b0f19',
+                        darkCard: '#111827',
+                        darkBorder: '#1f2937',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- QRCode.js CDN for generating QR codes -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(156, 163, 175, 0.3);
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(156, 163, 175, 0.5);
+        }
+    </style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.pointer-events-none{pointer-events:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.sticky{position:sticky}.inset-0{inset:0px}.inset-y-0{top:0px;bottom:0px}.bottom-6{bottom:1.5rem}.left-0{left:0px}.right-0{right:0px}.right-6{right:1.5rem}.top-0{top:0px}.z-50{z-index:50}.mx-auto{margin-left:auto;margin-right:auto}.my-2{margin-top:0.5rem;margin-bottom:0.5rem}.mb-1{margin-bottom:0.25rem}.mb-1\.5{margin-bottom:0.375rem}.mb-2{margin-bottom:0.5rem}.mb-3{margin-bottom:0.75rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mt-3{margin-top:0.75rem}.mt-6{margin-top:1.5rem}.block{display:block}.flex{display:flex}.grid{display:grid}.h-10{height:2.5rem}.h-16{height:4rem}.h-8{height:2rem}.max-h-56{max-height:14rem}.max-h-60{max-height:15rem}.min-h-\[220px\]{min-height:220px}.min-h-screen{min-height:100vh}.w-10{width:2.5rem}.w-full{width:100%}.w-8{width:2rem}.min-w-\[220px\]{min-width:220px}.max-w-6xl{max-width:72rem}.max-w-\[160px\]{max-width:160px}.max-w-md{max-width:28rem}.flex-1{flex:1 1 0%}.shrink-0{flex-shrink:0}.flex-grow{flex-grow:1}.translate-y-20{--tw-translate-y:5rem;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.scale-95{--tw-scale-x:.95;--tw-scale-y:.95;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.transform{transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.cursor-pointer{cursor:pointer}.select-all{-webkit-user-select:all;user-select:all}.appearance-none{-webkit-appearance:none;appearance:none}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.flex-col{flex-direction:column}.items-start{align-items:flex-start}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1{gap:0.25rem}.gap-1\.5{gap:0.375rem}.gap-2{gap:0.5rem}.gap-3{gap:0.75rem}.gap-8{gap:2rem}.space-x-3 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(0.75rem * var(--tw-space-x-reverse));margin-left:calc(0.75rem * calc(1 - var(--tw-space-x-reverse)))}.space-y-2 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.5rem * var(--tw-space-y-reverse))}.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.75rem * var(--tw-space-y-reverse))}.space-y-5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.25rem * var(--tw-space-y-reverse))}.space-y-6 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.5rem * var(--tw-space-y-reverse))}.divide-y > :not([hidden]) ~ :not([hidden]){--tw-divide-y-reverse:0;border-top-width:calc(1px * calc(1 - var(--tw-divide-y-reverse)));border-bottom-width:calc(1px * var(--tw-divide-y-reverse))}.divide-slate-200 > :not([hidden]) ~ :not([hidden]){--tw-divide-opacity:1;border-color:rgb(226 232 240 / var(--tw-divide-opacity, 1))}.overflow-hidden{overflow:hidden}.overflow-y-auto{overflow-y:auto}.truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.break-all{word-break:break-all}.rounded-2xl{border-radius:1rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.border{border-width:1px}.border-b{border-bottom-width:1px}.border-t{border-top-width:1px}.border-slate-100{--tw-border-opacity:1;border-color:rgb(241 245 249 / var(--tw-border-opacity, 1))}.border-slate-200{--tw-border-opacity:1;border-color:rgb(226 232 240 / var(--tw-border-opacity, 1))}.border-slate-200\/60{border-color:rgb(226 232 240 / 0.6)}.border-slate-300{--tw-border-opacity:1;border-color:rgb(203 213 225 / var(--tw-border-opacity, 1))}.bg-indigo-500\/10{background-color:rgb(99 102 241 / 0.1)}.bg-indigo-600{--tw-bg-opacity:1;background-color:rgb(79 70 229 / var(--tw-bg-opacity, 1))}.bg-slate-100{--tw-bg-opacity:1;background-color:rgb(241 245 249 / var(--tw-bg-opacity, 1))}.bg-slate-50{--tw-bg-opacity:1;background-color:rgb(248 250 252 / var(--tw-bg-opacity, 1))}.bg-slate-900{--tw-bg-opacity:1;background-color:rgb(15 23 42 / var(--tw-bg-opacity, 1))}.bg-slate-950\/70{background-color:rgb(2 6 23 / 0.7)}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-white\/50{background-color:rgb(255 255 255 / 0.5)}.bg-white\/80{background-color:rgb(255 255 255 / 0.8)}.p-1{padding:0.25rem}.p-2\.5{padding:0.625rem}.p-3\.5{padding:0.875rem}.p-4{padding:1rem}.p-6{padding:1.5rem}.p-1\.5{padding:0.375rem}.p-3{padding:0.75rem}.px-2\.5{padding-left:0.625rem;padding-right:0.625rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-2\.5{padding-top:0.625rem;padding-bottom:0.625rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.py-8{padding-top:2rem;padding-bottom:2rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.pb-3{padding-bottom:0.75rem}.pl-11{padding-left:2.75rem}.pl-4{padding-left:1rem}.pr-1{padding-right:0.25rem}.pr-10{padding-right:2.5rem}.pr-4{padding-right:1rem}.pt-2{padding-top:0.5rem}.pr-2{padding-right:0.5rem}.text-left{text-align:left}.text-center{text-align:center}.font-mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}.text-\[10px\]{font-size:10px}.text-\[11px\]{font-size:11px}.text-base{font-size:1rem;line-height:1.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.font-medium{font-weight:500}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.italic{font-style:italic}.leading-relaxed{line-height:1.625}.leading-tight{line-height:1.25}.tracking-tight{letter-spacing:-0.025em}.tracking-wider{letter-spacing:0.05em}.text-amber-500{--tw-text-opacity:1;color:rgb(245 158 11 / var(--tw-text-opacity, 1))}.text-emerald-400{--tw-text-opacity:1;color:rgb(52 211 153 / var(--tw-text-opacity, 1))}.text-emerald-500{--tw-text-opacity:1;color:rgb(16 185 129 / var(--tw-text-opacity, 1))}.text-indigo-500{--tw-text-opacity:1;color:rgb(99 102 241 / var(--tw-text-opacity, 1))}.text-indigo-600{--tw-text-opacity:1;color:rgb(79 70 229 / var(--tw-text-opacity, 1))}.text-rose-500{--tw-text-opacity:1;color:rgb(244 63 94 / var(--tw-text-opacity, 1))}.text-slate-400{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.text-slate-500{--tw-text-opacity:1;color:rgb(100 116 139 / var(--tw-text-opacity, 1))}.text-slate-600{--tw-text-opacity:1;color:rgb(71 85 105 / var(--tw-text-opacity, 1))}.text-slate-700{--tw-text-opacity:1;color:rgb(51 65 85 / var(--tw-text-opacity, 1))}.text-slate-800{--tw-text-opacity:1;color:rgb(30 41 59 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-amber-400{--tw-text-opacity:1;color:rgb(251 191 36 / var(--tw-text-opacity, 1))}.opacity-0{opacity:0}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-md{--tw-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-xl{--tw-shadow:0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-indigo-500\/30{--tw-shadow-color:rgb(99 102 241 / 0.3);--tw-shadow:var(--tw-shadow-colored)}.shadow-indigo-600\/30{--tw-shadow-color:rgb(79 70 229 / 0.3);--tw-shadow:var(--tw-shadow-colored)}.shadow-slate-200\/50{--tw-shadow-color:rgb(226 232 240 / 0.5);--tw-shadow:var(--tw-shadow-colored)}.backdrop-blur-md{--tw-backdrop-blur:blur(12px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.backdrop-blur-sm{--tw-backdrop-blur:blur(4px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-colors{transition-property:color, background-color, border-color, fill, stroke, -webkit-text-decoration-color;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-opacity{transition-property:opacity;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-300{transition-duration:300ms}.hover\:border-indigo-500:hover{--tw-border-opacity:1;border-color:rgb(99 102 241 / var(--tw-border-opacity, 1))}.hover\:bg-indigo-700:hover{--tw-bg-opacity:1;background-color:rgb(67 56 202 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-100:hover{--tw-bg-opacity:1;background-color:rgb(241 245 249 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-200:hover{--tw-bg-opacity:1;background-color:rgb(226 232 240 / var(--tw-bg-opacity, 1))}.hover\:bg-rose-500\/10:hover{background-color:rgb(244 63 94 / 0.1)}.hover\:text-rose-600:hover{--tw-text-opacity:1;color:rgb(225 29 72 / var(--tw-text-opacity, 1))}.hover\:text-slate-600:hover{--tw-text-opacity:1;color:rgb(71 85 105 / var(--tw-text-opacity, 1))}.hover\:text-rose-700:hover{--tw-text-opacity:1;color:rgb(190 18 60 / var(--tw-text-opacity, 1))}.hover\:underline:hover{-webkit-text-decoration-line:underline;text-decoration-line:underline}.focus\:border-transparent:focus{border-color:transparent}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.focus\:ring-2:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.focus\:ring-indigo-500:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(99 102 241 / var(--tw-ring-opacity, 1))}.group:hover .group-hover\:text-indigo-600{--tw-text-opacity:1;color:rgb(79 70 229 / var(--tw-text-opacity, 1))}.group:hover .group-hover\:opacity-100{opacity:1}.dark\:divide-slate-800:is(.dark *) > :not([hidden]) ~ :not([hidden]){--tw-divide-opacity:1;border-color:rgb(30 41 59 / var(--tw-divide-opacity, 1))}.dark\:border-darkBorder:is(.dark *){--tw-border-opacity:1;border-color:rgb(31 41 55 / var(--tw-border-opacity, 1))}.dark\:border-slate-700:is(.dark *){--tw-border-opacity:1;border-color:rgb(51 65 85 / var(--tw-border-opacity, 1))}.dark\:border-slate-800:is(.dark *){--tw-border-opacity:1;border-color:rgb(30 41 59 / var(--tw-border-opacity, 1))}.dark\:border-slate-800\/80:is(.dark *){border-color:rgb(30 41 59 / 0.8)}.dark\:bg-darkBg:is(.dark *){--tw-bg-opacity:1;background-color:rgb(11 15 25 / var(--tw-bg-opacity, 1))}.dark\:bg-darkCard:is(.dark *){--tw-bg-opacity:1;background-color:rgb(17 24 39 / var(--tw-bg-opacity, 1))}.dark\:bg-darkCard\/50:is(.dark *){background-color:rgb(17 24 39 / 0.5)}.dark\:bg-darkCard\/80:is(.dark *){background-color:rgb(17 24 39 / 0.8)}.dark\:bg-slate-800:is(.dark *){--tw-bg-opacity:1;background-color:rgb(30 41 59 / var(--tw-bg-opacity, 1))}.dark\:bg-slate-800\/60:is(.dark *){background-color:rgb(30 41 59 / 0.6)}.dark\:bg-slate-900:is(.dark *){--tw-bg-opacity:1;background-color:rgb(15 23 42 / var(--tw-bg-opacity, 1))}.dark\:bg-slate-900\/60:is(.dark *){background-color:rgb(15 23 42 / 0.6)}.dark\:bg-white:is(.dark *){--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.dark\:bg-slate-900\/50:is(.dark *){background-color:rgb(15 23 42 / 0.5)}.dark\:text-amber-400:is(.dark *){--tw-text-opacity:1;color:rgb(251 191 36 / var(--tw-text-opacity, 1))}.dark\:text-emerald-600:is(.dark *){--tw-text-opacity:1;color:rgb(5 150 105 / var(--tw-text-opacity, 1))}.dark\:text-indigo-400:is(.dark *){--tw-text-opacity:1;color:rgb(129 140 248 / var(--tw-text-opacity, 1))}.dark\:text-slate-100:is(.dark *){--tw-text-opacity:1;color:rgb(241 245 249 / var(--tw-text-opacity, 1))}.dark\:text-slate-200:is(.dark *){--tw-text-opacity:1;color:rgb(226 232 240 / var(--tw-text-opacity, 1))}.dark\:text-slate-300:is(.dark *){--tw-text-opacity:1;color:rgb(203 213 225 / var(--tw-text-opacity, 1))}.dark\:text-slate-400:is(.dark *){--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.dark\:text-slate-900:is(.dark *){--tw-text-opacity:1;color:rgb(15 23 42 / var(--tw-text-opacity, 1))}.dark\:shadow-none:is(.dark *){--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.dark\:hover\:border-indigo-500:hover:is(.dark *){--tw-border-opacity:1;border-color:rgb(99 102 241 / var(--tw-border-opacity, 1))}.dark\:hover\:bg-slate-700:hover:is(.dark *){--tw-bg-opacity:1;background-color:rgb(51 65 85 / var(--tw-bg-opacity, 1))}.dark\:hover\:bg-slate-800:hover:is(.dark *){--tw-bg-opacity:1;background-color:rgb(30 41 59 / var(--tw-bg-opacity, 1))}.dark\:hover\:bg-slate-900:hover:is(.dark *){--tw-bg-opacity:1;background-color:rgb(15 23 42 / var(--tw-bg-opacity, 1))}.dark\:hover\:text-rose-400:hover:is(.dark *){--tw-text-opacity:1;color:rgb(251 113 133 / var(--tw-text-opacity, 1))}.dark\:hover\:text-slate-200:hover:is(.dark *){--tw-text-opacity:1;color:rgb(226 232 240 / var(--tw-text-opacity, 1))}.group:hover .dark\:group-hover\:text-indigo-400:is(.dark *){--tw-text-opacity:1;color:rgb(129 140 248 / var(--tw-text-opacity, 1))}@media (min-width: 640px){.sm\:p-8{padding:2rem}.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}}@media (min-width: 1024px){.lg\:col-span-5{grid-column:span 5 / span 5}.lg\:col-span-7{grid-column:span 7 / span 7}.lg\:grid-cols-12{grid-template-columns:repeat(12, minmax(0, 1fr))}.lg\:px-8{padding-left:2rem;padding-right:2rem}}</style></head>
+<body class="bg-slate-50 dark:bg-darkBg text-slate-800 dark:text-slate-100 min-h-screen transition-colors duration-300 flex flex-col justify-between">
 
-  <title>Shared Links</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      padding: 24px;
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      color: #222;
-    }
-
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    h1 {
-      margin-bottom: 24px;
-    }
-
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-      margin-bottom: 20px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: bold;
-    }
-
-    input {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 16px;
-      margin-bottom: 12px;
-    }
-
-    .buttons {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    button {
-      border: 0;
-      border-radius: 8px;
-      padding: 11px 16px;
-      font-size: 15px;
-      cursor: pointer;
-    }
-
-    .btn-primary {
-      background: #2563eb;
-      color: white;
-    }
-
-    .btn-success {
-      background: #16a34a;
-      color: white;
-    }
-
-    .history-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 0;
-      border-bottom: 1px solid #eee;
-    }
-
-    .history-item:last-child {
-      border-bottom: 0;
-    }
-
-    .history-text {
-      flex: 1;
-      word-break: break-all;
-    }
-
-    .empty {
-      color: #888;
-      text-align: center;
-      padding: 20px 0;
-    }
-
-    @media (max-width: 500px) {
-      body {
-        padding: 16px;
-      }
-
-      .history-item {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .history-item button {
-        width: 100%;
-      }
-    }
-  </style>
-</head>
-
-<body>
-
-  <div class="container">
-
-    <h1>Shared Links</h1>
-
-    <div class="card">
-
-      <label for="txt1">txt1</label>
-
-      <input
-        id="txt1"
-        type="text"
-        placeholder="https://example.com"
-      >
-
-      <div class="buttons">
-
-        <button
-          class="btn-primary"
-          onclick="generateText()"
-        >
-          Generate
-        </button>
-
-        <button
-          class="btn-success"
-          onclick="saveHistory()"
-        >
-          Save
-        </button>
-
-        <button
-          onclick="openCurrentLink()"
-        >
-          Open Link
-        </button>
-
-      </div>
-
-    </div>
-
-    <div class="card">
-
-      <h2>History</h2>
-
-      <div id="historyList">
-
-        <div class="empty">
-          No history yet
+    <header class="w-full border-b border-slate-200 dark:border-darkBorder bg-white/80 dark:bg-darkCard/80 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
+                    <i class="fa-solid fa-qrcode text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight tracking-tight">AppLink QR Gen</h1>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Deep Link &amp; QR Code Creator</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3">
+                <!-- Theme Toggle Button -->
+                <button id="themeToggle" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500" aria-label="Toggle Theme">
+                    <i id="themeIcon" class="fa-solid fa-sun text-amber-400"></i>
+                </button>
+            </div>
         </div>
+    </header>
 
-      </div>
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-grow">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- Left Column: Input Panel & History -->
+            <div class="lg:col-span-7 space-y-6">
+                <!-- Generator Card -->
+                <div class="bg-white dark:bg-darkCard border border-slate-200 dark:border-darkBorder rounded-2xl p-6 sm:p-8 shadow-xl shadow-slate-200/50 dark:shadow-none transition-all">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-bold tracking-tight flex items-center gap-2">
+                            <i class="fa-solid fa-sliders text-indigo-500"></i> Generator Config
+                        </h2>
+                        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">Live Sync</span>
+                    </div>
 
+                    <form id="qrForm" class="space-y-5">
+                        <!-- Preset Dropdown with Add/Delete triggers -->
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <label for="presetSelect" class="text-sm font-semibold text-slate-700 dark:text-slate-300">
+                                    Pre-set Public IDs
+                                </label>
+                                <div class="flex items-center gap-2">
+                                    <button type="button" id="openManageModalBtn" class="text-xs text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1 font-medium">
+                                        <i class="fa-solid fa-gear"></i> Manage Presets
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <div class="relative flex-grow">
+                                    <select id="presetSelect" class="w-full appearance-none bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all pr-10"><option value="" disabled="" selected="">-- Choose a preset ID --</option><option value="merchant_alpha_01">merchant_alpha_01</option><option value="store_beta_99">store_beta_99</option><option value="partner_gamma_42">partner_gamma_42</option><option value="vip_user_777">vip_user_777</option><option value="test_sandbox_00">test_sandbox_00</option></select>
+                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
+                                        <i class="fa-solid fa-chevron-down text-xs"></i>
+                                    </div>
+                                </div>
+                                <button type="button" id="quickAddPresetBtn" title="Save current input as new preset" class="px-4 py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl font-medium transition-all flex items-center justify-center shrink-0">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Custom Public ID Input -->
+                        <div>
+                            <label for="publicIDInput" class="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">
+                                Public ID <span class="text-rose-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                                    <i class="fa-solid fa-id-badge"></i>
+                                </span>
+                                <input type="text" id="publicIDInput" required="" placeholder="e.g. merchant_alpha_01" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl pl-11 pr-4 py-3 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all">
+                            </div>
+                        </div>
+
+                        <!-- Base Template Preview Badge -->
+                        <div class="bg-slate-100 dark:bg-slate-900/60 rounded-xl p-4 border border-slate-200 dark:border-slate-800/80">
+                            <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 block mb-1">Target Template</span>
+                            <code class="text-xs text-indigo-600 dark:text-indigo-400 font-mono break-all block">https://mws-stg.adldigitalservice.com/openWebToApp?publicID={publicID}&amp;URI=myais://home</code>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex gap-3 pt-2">
+                            <button type="submit" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg shadow-indigo-600/30 transition-all flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-bolt"></i> Generate QR &amp; Link
+                            </button>
+                            <button type="button" id="resetBtn" class="px-5 py-3 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all font-semibold">
+                                Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Recent History Section -->
+                <div class="bg-white dark:bg-darkCard border border-slate-200 dark:border-darkBorder rounded-2xl p-6 shadow-xl shadow-slate-200/50 dark:shadow-none transition-all">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-bold text-base flex items-center gap-2">
+                            <i class="fa-solid fa-clock-rotate-left text-indigo-500"></i> Recent Inputs (<span id="historyCount">1</span>)
+                        </h3>
+                        <button id="clearHistoryBtn" class="text-xs font-medium text-rose-500 hover:text-rose-600 dark:hover:text-rose-400 transition-colors flex items-center gap-1">
+                            <i class="fa-solid fa-trash-can"></i> Clear History
+                        </button>
+                    </div>
+                    <div id="historyList" class="space-y-2 max-h-56 overflow-y-auto pr-1"><div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-indigo-500 dark:hover:border-indigo-500 transition-all cursor-pointer group">
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        <div class="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-history text-xs"></i>
+                        </div>
+                        <div class="truncate">
+                            <p class="text-xs font-semibold text-slate-800 dark:text-slate-200 truncate group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">merchant_alpha_01</p>
+                            <p class="text-[10px] text-slate-400">02:04 PM</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-1 shrink-0">
+                        <span class="text-xs text-indigo-600 dark:text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity font-medium px-2 py-1">Load →</span>
+                    </div>
+                </div></div>
+                </div>
+            </div>
+
+            <!-- Right Column: QR Code Result & URI Output Panels -->
+            <div class="lg:col-span-5 space-y-6">
+                <button type="button" id="toggleQrBtn" class="w-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold py-2.5 px-4 rounded-xl transition-all flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-eye"></i> Show QR
+                </button>
+                <!-- QR Code Display Card (hidden by default) -->
+                <div id="qrPanel" style="display:none;" class="bg-white dark:bg-darkCard border border-slate-200 dark:border-darkBorder rounded-2xl p-6 sm:p-8 shadow-xl shadow-slate-200/50 dark:shadow-none transition-all text-center flex flex-col items-center">
+                    <h2 class="text-xl font-bold tracking-tight mb-6 w-full text-left flex items-center gap-2">
+                        <i class="fa-solid fa-qrcode text-indigo-500"></i> QR Output
+                    </h2>
+                    <!-- QR Box Container -->
+                    <div class="bg-white p-4 rounded-2xl shadow-md border border-slate-100 flex items-center justify-center my-2 relative group min-h-[220px] min-w-[220px]">
+                        <div id="qrcode" title="https://mws-stg.adldigitalservice.com/openWebToApp?publicID=merchant_alpha_01&amp;URI=myais%3A%2F%2Fhome"><canvas width="180" height="180" style="display: none;"></canvas><img src="data:image/png;base64,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" style="display: block;"></div>
+                    </div>
+
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-3 mb-6">Scan with mobile camera or app to open deep link</p>
+
+                    <button id="downloadQrBtn" class="w-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold py-3 px-4 rounded-xl transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-download"></i> Download QR Image
+                    </button>
+                </div>
+
+                <!-- URI Breakdown Card (Encoded & Decoded) -->
+                <div class="bg-white dark:bg-darkCard border border-slate-200 dark:border-darkBorder rounded-2xl p-6 sm:p-8 shadow-xl shadow-slate-200/50 dark:shadow-none transition-all space-y-6">
+                    <h2 class="text-xl font-bold tracking-tight flex items-center gap-2">
+                        <i class="fa-solid fa-code text-indigo-500"></i> URI Representations
+                    </h2>
+
+                    <!-- Encoded URI Section -->
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                                <i class="fa-solid fa-lock text-indigo-500"></i> Encoded URI
+                            </span>
+                            <button onclick="copyToClipboard('encodedUriText', this)" class="text-xs font-medium text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1">
+                                <i class="fa-regular fa-copy"></i> Copy
+                            </button>
+                        </div>
+                        <div class="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-3.5">
+                            <p id="encodedUriText" class="text-xs font-mono text-slate-700 dark:text-slate-300 break-all select-all leading-relaxed">https://mws-stg.adldigitalservice.com/openWebToApp?publicID=merchant_alpha_01&amp;URI=myais%3A%2F%2Fhome</p>
+                        </div>
+                    </div>
+
+                    <!-- Decoded URI Section with Detailed Breakdown -->
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                                <i class="fa-solid fa-lock-open text-emerald-500"></i> Decoded URI &amp; Details
+                            </span>
+                            <button onclick="copyToClipboard('decodedUriText', this)" class="text-xs font-medium text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1">
+                                <i class="fa-regular fa-copy"></i> Copy Full
+                            </button>
+                        </div>
+                        <div class="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-3.5">
+                            <p id="decodedUriText" class="text-xs font-mono text-slate-700 dark:text-slate-300 break-all select-all leading-relaxed mb-3 pb-3 border-b border-slate-200 dark:border-slate-800">https://mws-stg.adldigitalservice.com/openWebToApp?publicID=merchant_alpha_01&amp;URI=myais://home</p>
+
+                            <!-- Structured Details Breakdown -->
+                            <div class="space-y-2">
+                                <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1.5">Component Breakdown:</span>
+                                <div class="grid grid-cols-1 gap-1.5 text-xs">
+                                    <!-- Protocol / Scheme -->
+                                    <div class="flex items-center justify-between bg-white dark:bg-slate-800/60 p-2.5 rounded-lg border border-slate-200/60 dark:border-slate-800">
+                                        <span class="text-slate-500 dark:text-slate-400 font-medium flex items-center gap-1.5"><i class="fa-solid fa-network-wired text-indigo-500 text-[10px]"></i> Scheme</span>
+                                        <span id="detailScheme" class="font-mono font-semibold text-slate-800 dark:text-slate-200">https</span>
+                                    </div>
+                                    <!-- Host / Domain -->
+                                    <div class="flex items-center justify-between bg-white dark:bg-slate-800/60 p-2.5 rounded-lg border border-slate-200/60 dark:border-slate-800">
+                                        <span class="text-slate-500 dark:text-slate-400 font-medium flex items-center gap-1.5"><i class="fa-solid fa-globe text-indigo-500 text-[10px]"></i> Host</span>
+                                        <span id="detailHost" class="font-mono font-semibold text-slate-800 dark:text-slate-200">mws-stg.adldigitalservice.com</span>
+                                    </div>
+                                    <!-- Path -->
+                                    <div class="flex items-center justify-between bg-white dark:bg-slate-800/60 p-2.5 rounded-lg border border-slate-200/60 dark:border-slate-800">
+                                        <span class="text-slate-500 dark:text-slate-400 font-medium flex items-center gap-1.5"><i class="fa-solid fa-folder-tree text-indigo-500 text-[10px]"></i> Path</span>
+                                        <span id="detailPath" class="font-mono font-semibold text-slate-800 dark:text-slate-200">/openWebToApp</span>
+                                    </div>
+                                    <!-- Query: publicID -->
+                                    <div class="flex items-center justify-between bg-white dark:bg-slate-800/60 p-2.5 rounded-lg border border-slate-200/60 dark:border-slate-800">
+                                        <span class="text-slate-500 dark:text-slate-400 font-medium flex items-center gap-1.5"><i class="fa-solid fa-id-badge text-amber-500 text-[10px]"></i> Param: publicID</span>
+                                        <span id="detailPublicID" class="font-mono font-semibold text-indigo-600 dark:text-indigo-400 truncate max-w-[160px]" title="merchant_alpha_01">merchant_alpha_01</span>
+                                    </div>
+                                    <!-- Query: URI -->
+                                    <div class="flex items-center justify-between bg-white dark:bg-slate-800/60 p-2.5 rounded-lg border border-slate-200/60 dark:border-slate-800">
+                                        <span class="text-slate-500 dark:text-slate-400 font-medium flex items-center gap-1.5"><i class="fa-solid fa-link text-emerald-500 text-[10px]"></i> Param: URI</span>
+                                        <span id="detailTargetURI" class="font-mono font-semibold text-slate-800 dark:text-slate-200 truncate max-w-[160px]" title="myais://home">myais://home</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Manage Presets Modal -->
+    <div id="manageModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+        <div class="bg-white dark:bg-darkCard border border-slate-200 dark:border-darkBorder rounded-2xl w-full max-w-md p-6 shadow-2xl transform scale-95 transition-all duration-300" id="modalContent">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="font-bold text-lg flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-indigo-500"></i> Manage Presets
+                </h3>
+                <button id="closeModalBtn" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Add new preset items or remove unwanted ones from your dropdown list.</p>
+
+            <!-- Add Preset Form Inside Modal -->
+            <form id="addPresetForm" class="grid grid-cols-1 gap-2 mb-4">
+                <input type="text" id="newPresetInput" placeholder="Public ID..." required="" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <div class="flex gap-2">
+                    <input type="text" id="newPresetNickname" placeholder="Nickname (optional)" class="flex-grow bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <button type="submit" id="addPresetSubmitBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-xs font-semibold transition-all shrink-0">
+                        Add Preset
+                    </button>
+                </div>
+            </form>
+
+            <!-- Presets List for Deletion -->
+            <div class="border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden max-h-60 overflow-y-auto">
+                <div id="modalPresetList" class="divide-y divide-slate-200 dark:divide-slate-800"><div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-900/50 hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors">
+                    <span class="text-xs font-mono font-medium text-slate-700 dark:text-slate-300 truncate pr-2">merchant_alpha_01</span>
+                    <button type="button" onclick="deletePreset('merchant_alpha_01')" class="text-rose-500 hover:text-rose-700 p-1.5 rounded-lg hover:bg-rose-500/10 transition-colors" title="Delete Preset">
+                        <i class="fa-solid fa-trash-can text-xs"></i>
+                    </button>
+                </div><div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-900/50 hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors">
+                    <span class="text-xs font-mono font-medium text-slate-700 dark:text-slate-300 truncate pr-2">store_beta_99</span>
+                    <button type="button" onclick="deletePreset('store_beta_99')" class="text-rose-500 hover:text-rose-700 p-1.5 rounded-lg hover:bg-rose-500/10 transition-colors" title="Delete Preset">
+                        <i class="fa-solid fa-trash-can text-xs"></i>
+                    </button>
+                </div><div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-900/50 hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors">
+                    <span class="text-xs font-mono font-medium text-slate-700 dark:text-slate-300 truncate pr-2">partner_gamma_42</span>
+                    <button type="button" onclick="deletePreset('partner_gamma_42')" class="text-rose-500 hover:text-rose-700 p-1.5 rounded-lg hover:bg-rose-500/10 transition-colors" title="Delete Preset">
+                        <i class="fa-solid fa-trash-can text-xs"></i>
+                    </button>
+                </div><div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-900/50 hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors">
+                    <span class="text-xs font-mono font-medium text-slate-700 dark:text-slate-300 truncate pr-2">vip_user_777</span>
+                    <button type="button" onclick="deletePreset('vip_user_777')" class="text-rose-500 hover:text-rose-700 p-1.5 rounded-lg hover:bg-rose-500/10 transition-colors" title="Delete Preset">
+                        <i class="fa-solid fa-trash-can text-xs"></i>
+                    </button>
+                </div><div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-900/50 hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors">
+                    <span class="text-xs font-mono font-medium text-slate-700 dark:text-slate-300 truncate pr-2">test_sandbox_00</span>
+                    <button type="button" onclick="deletePreset('test_sandbox_00')" class="text-rose-500 hover:text-rose-700 p-1.5 rounded-lg hover:bg-rose-500/10 transition-colors" title="Delete Preset">
+                        <i class="fa-solid fa-trash-can text-xs"></i>
+                    </button>
+                </div></div>
+            </div>
+
+            <div class="mt-6 flex justify-end">
+                <button id="closeModalFooterBtn" class="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 px-5 py-2.5 rounded-xl text-xs font-semibold transition-all">
+                    Done
+                </button>
+            </div>
+        </div>
     </div>
 
-  </div>
+    <footer class="border-t border-slate-200 dark:border-darkBorder bg-white/50 dark:bg-darkCard/50 py-6 text-center text-xs text-slate-500 dark:text-slate-400">
+        <p>Deep Dark QR Code Generator • Designed for seamless deep linking &amp; web-to-app routing.</p>
+    </footer>
 
-  <script>
+    <!-- Notification Toast Element -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 text-sm font-medium">
+        <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400 dark:text-emerald-600"></i>
+        <span id="toastMessage">Action completed successfully</span>
+    </div>
 
-    let txt1 = "";
+    <!-- Firebase SDK (Firestore for shared cross-device history) -->
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+    <script>
+        // DOM Elements
+        
+        // ==============================
+        // Firebase / Firestore
+        // ==============================
+        // Put your existing Firebase config here.
+        // Firestore collection used by this app: deeplink_history
+        const firebaseConfig = {
+            apiKey: "AIzaSyAHVX-o6KgfHAlZqhHHjFGD9nmYpzi-JdQ",
+            authDomain: "genqr-60a4d.firebaseapp.com",
+            projectId: "genqr-60a4d",
+            storageBucket: "genqr-60a4d.firebasestorage.app",
+            messagingSenderId: "801555355270",
+            appId: "1:801555355270:web:8df38c072bc4f2c1e32307",
+            measurementId: "G-2SYZPWQL9K"
+        };
 
-    function generateText() {
+        let db = null;
+        let firebaseReady = false;
+        try {
+            if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+            db = firebase.firestore();
+            firebaseReady = !Object.values(firebaseConfig).some(v => String(v).includes("YOUR_"));
+        } catch (error) {
+            console.error("Firebase initialization failed:", error);
+        }
 
-      const randomText =
-        Math.random()
-          .toString(36)
-          .substring(2, 10);
+const htmlElement = document.documentElement;
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const qrForm = document.getElementById('qrForm');
+        const publicIDInput = document.getElementById('publicIDInput');
+        const presetSelect = document.getElementById('presetSelect');
+        const resetBtn = document.getElementById('resetBtn');
+        const qrcodeContainer = document.getElementById('qrcode');
+        const encodedUriText = document.getElementById('encodedUriText');
+        const decodedUriText = document.getElementById('decodedUriText');
+        const downloadQrBtn = document.getElementById('downloadQrBtn');
+        const qrPanel = document.getElementById('qrPanel');
+        const toggleQrBtn = document.getElementById('toggleQrBtn');
+        const historyList = document.getElementById('historyList');
+        const historyCount = document.getElementById('historyCount');
+        const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+        
+        // Detailed breakdown elements
+        const detailScheme = document.getElementById('detailScheme');
+        const detailHost = document.getElementById('detailHost');
+        const detailPath = document.getElementById('detailPath');
+        const detailPublicID = document.getElementById('detailPublicID');
+        const detailTargetURI = document.getElementById('detailTargetURI');
+        
+        // Modal & Preset Management Elements
+        const manageModal = document.getElementById('manageModal');
+        const modalContent = document.getElementById('modalContent');
+        const openManageModalBtn = document.getElementById('openManageModalBtn');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const closeModalFooterBtn = document.getElementById('closeModalFooterBtn');
+        const addPresetForm = document.getElementById('addPresetForm');
+        const newPresetInput = document.getElementById('newPresetInput');
+        const newPresetNickname = document.getElementById('newPresetNickname');
+        const addPresetSubmitBtn = document.getElementById('addPresetSubmitBtn');
+        const modalPresetList = document.getElementById('modalPresetList');
+        const quickAddPresetBtn = document.getElementById('quickAddPresetBtn');
 
-      txt1 = "https://www." + randomText + ".com";
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
 
-      document.getElementById("txt1").value = txt1;
-    }
+        // State & Constants
+        let qrInstance = null;
+        const STORAGE_KEY = 'qr_generator_history_v1';
+        const PRESETS_KEY = 'qr_generator_presets_v1';
+        let historyData = [];
 
-    function saveHistory() {
+        // Default initial presets
+        const defaultPresets = [
+            'merchant_alpha_01',
+            'store_beta_99',
+            'partner_gamma_42',
+            'vip_user_777',
+            'test_sandbox_00'
+        ];
 
-      const value =
-        document.getElementById("txt1").value.trim();
+        let presetsList = [];
 
-      if (!value) {
-        alert("Please enter a URL");
-        return;
-      }
+        // Theme management
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                htmlElement.classList.remove('dark');
+                themeIcon.className = 'fa-solid fa-moon text-indigo-600';
+            } else {
+                htmlElement.classList.add('dark');
+                themeIcon.className = 'fa-solid fa-sun text-amber-400';
+            }
+        }
 
-      txt1 = value;
+        themeToggle.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                themeIcon.className = 'fa-solid fa-moon text-indigo-600';
+                showToast('Switched to Light Mode');
+            } else {
+                htmlElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                themeIcon.className = 'fa-solid fa-sun text-amber-400';
+                showToast('Switched to Deep Dark Mode');
+            }
+            generateQR(publicIDInput.value.trim());
+        });
 
-      // Firebase จะมาใส่ตรงนี้
-      console.log("Save:", txt1);
+        // Toast Notification System
+        function showToast(message) {
+            toastMessage.textContent = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
 
-      alert("Saved!");
-    }
+        // ==============================
+        // Shared Presets - Firebase Firestore
+        // ==============================
+        const PRESETS_COLLECTION = 'deeplink_presets';
+        const PRESET_META_DOC = 'config';
+        let presetsUnsubscribe = null;
+        let editingPresetId = null;
 
-    function openCurrentLink() {
+        function presetLabel(preset) {
+            return preset.nickname ? `${preset.nickname} (${preset.id})` : preset.id;
+        }
 
-      const value =
-        document.getElementById("txt1").value.trim();
+        function renderPresetsDropdown() {
+            presetSelect.innerHTML = '<option value="" disabled selected>-- Choose a preset ID --</option>';
+            presetsList.forEach(preset => {
+                const opt = document.createElement('option');
+                opt.value = preset.id;
+                opt.textContent = presetLabel(preset);
+                presetSelect.appendChild(opt);
+            });
+        }
 
-      if (!value) {
-        alert("No URL");
-        return;
-      }
+        function renderModalPresetsList() {
+            modalPresetList.innerHTML = '';
+            if (presetsList.length === 0) {
+                modalPresetList.innerHTML = '<div class="p-4 text-center text-xs text-slate-400 italic">No presets available. Add one above.</div>';
+                return;
+            }
 
-      window.open(value, "_blank");
-    }
+            presetsList.forEach(preset => {
+                const item = document.createElement('div');
+                item.className = 'flex items-center justify-between gap-2 p-3 bg-slate-50 dark:bg-slate-900/50 hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors';
+                item.innerHTML = `
+                    <div class="min-w-0">
+                        <div class="text-xs font-semibold text-slate-700 dark:text-slate-300 truncate">${escapeHtml(preset.nickname || preset.id)}</div>
+                        <div class="text-[10px] font-mono text-slate-400 truncate">${escapeHtml(preset.id)}</div>
+                    </div>
+                    <div class="flex items-center gap-1 shrink-0">
+                        <button type="button" class="edit-preset text-indigo-500 hover:text-indigo-700 p-1.5 rounded-lg hover:bg-indigo-500/10" title="Edit Preset"><i class="fa-solid fa-pen text-xs"></i></button>
+                        <button type="button" class="delete-preset text-rose-500 hover:text-rose-700 p-1.5 rounded-lg hover:bg-rose-500/10" title="Delete Preset"><i class="fa-solid fa-trash-can text-xs"></i></button>
+                    </div>`;
+                item.querySelector('.edit-preset').addEventListener('click', () => startEditPreset(preset));
+                item.querySelector('.delete-preset').addEventListener('click', () => deletePreset(preset.id));
+                modalPresetList.appendChild(item);
+            });
+        }
 
-  </script>
+        async function seedDefaultPresetsOnce() {
+            if (!firebaseReady || !db) return;
+            const metaRef = db.collection(PRESETS_COLLECTION).doc(PRESET_META_DOC);
+            const meta = await metaRef.get();
+            if (meta.exists && meta.data()?.initialized) return;
 
-</body>
-</html>
+            const batch = db.batch();
+            defaultPresets.forEach(id => {
+                batch.set(db.collection(PRESETS_COLLECTION).doc(id), { id, nickname: '', createdAt: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true });
+            });
+            batch.set(metaRef, { initialized: true, initializedAt: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true });
+            await batch.commit();
+        }
+
+        function subscribePresets() {
+            if (!firebaseReady || !db) {
+                presetsList = [];
+                renderPresetsDropdown();
+                renderModalPresetsList();
+                return;
+            }
+            if (presetsUnsubscribe) presetsUnsubscribe();
+            presetsUnsubscribe = db.collection(PRESETS_COLLECTION)
+                .where('id', '!=', PRESET_META_DOC)
+                .orderBy('id')
+                .onSnapshot(snapshot => {
+                    presetsList = snapshot.docs.map(doc => ({ firestoreId: doc.id, ...doc.data() }));
+                    renderPresetsDropdown();
+                    renderModalPresetsList();
+                }, error => {
+                    console.error('Preset listener failed:', error);
+                    showToast('Cannot load shared presets');
+                });
+        }
+
+        async function initPresets() {
+            if (!firebaseReady || !db) {
+                renderPresetsDropdown();
+                renderModalPresetsList();
+                return;
+            }
+            try {
+                await seedDefaultPresetsOnce();
+                subscribePresets();
+            } catch (error) {
+                console.error('Preset initialization failed:', error);
+                showToast('Cannot initialize Firebase presets');
+                subscribePresets();
+            }
+        }
+
+        async function savePreset(id, nickname, oldId = null) {
+            const cleanID = String(id || '').trim();
+            const cleanNickname = String(nickname || '').trim();
+            if (!cleanID) { showToast('Public ID is required'); return; }
+            if (!firebaseReady || !db) { showToast('Firebase is not configured'); return; }
+
+            try {
+                const newRef = db.collection(PRESETS_COLLECTION).doc(cleanID);
+                const existing = await newRef.get();
+                if (existing.exists && cleanID !== oldId) {
+                    showToast('Preset Public ID already exists');
+                    return;
+                }
+                const batch = db.batch();
+                batch.set(newRef, { id: cleanID, nickname: cleanNickname }, { merge: true });
+                if (oldId && oldId !== cleanID) batch.delete(db.collection(PRESETS_COLLECTION).doc(oldId));
+                await batch.commit();
+                showToast(oldId ? 'Preset updated' : 'Preset added');
+                editingPresetId = null;
+                newPresetInput.value = '';
+                newPresetNickname.value = '';
+                addPresetSubmitBtn.textContent = 'Add Preset';
+            } catch (error) {
+                console.error('Failed to save preset:', error);
+                showToast('Failed to save preset');
+            }
+        }
+
+        function startEditPreset(preset) {
+            editingPresetId = preset.id;
+            newPresetInput.value = preset.id;
+            newPresetNickname.value = preset.nickname || '';
+            addPresetSubmitBtn.textContent = 'Save';
+            newPresetInput.focus();
+        }
+
+        async function addPreset(id, nickname = '') {
+            await savePreset(id, nickname);
+        }
+
+        async function deletePreset(id) {
+            if (!firebaseReady || !db) { showToast('Firebase is not configured'); return; }
+            if (!confirm(`Delete preset "${id}" from all devices?`)) return;
+            try {
+                await db.collection(PRESETS_COLLECTION).doc(id).delete();
+                if (presetSelect.value === id) presetSelect.value = '';
+                showToast(`Preset "${id}" deleted`);
+            } catch (error) {
+                console.error('Failed to delete preset:', error);
+                showToast('Failed to delete preset');
+            }
+        }
+
+        window.deletePreset = deletePreset;
+
+        // Modal Controls
+        function openModal() {
+            manageModal.classList.remove('opacity-0', 'pointer-events-none');
+            modalContent.classList.remove('scale-95');
+            modalContent.classList.add('scale-100');
+            renderModalPresetsList();
+        }
+        function closeModal() {
+            manageModal.classList.add('opacity-0', 'pointer-events-none');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+            editingPresetId = null;
+            newPresetInput.value = '';
+            newPresetNickname.value = '';
+            addPresetSubmitBtn.textContent = 'Add Preset';
+        }
+
+        openManageModalBtn.addEventListener('click', openModal);
+        closeModalBtn.addEventListener('click', closeModal);
+        closeModalFooterBtn.addEventListener('click', closeModal);
+        manageModal.addEventListener('click', e => { if (e.target === manageModal) closeModal(); });
+
+        addPresetForm.addEventListener('submit', e => {
+            e.preventDefault();
+            savePreset(newPresetInput.value, newPresetNickname.value, editingPresetId);
+        });
+
+        quickAddPresetBtn.addEventListener('click', () => {
+            const val = publicIDInput.value.trim();
+            if (!val) { showToast('Please enter a Public ID in the input field first'); return; }
+            addPreset(val, '');
+        });
+
+        // Generate QR Code and URI Strings + Update Detailed Breakdown
+        function generateQR(publicID) {
+            const cleanID = publicID || '';
+            const decodedUrl = `https://mws-stg.adldigitalservice.com/openWebToApp?publicID=${cleanID}&URI=myais://home`;
+            const encodedUrl = `https://mws-stg.adldigitalservice.com/openWebToApp?publicID=${encodeURIComponent(cleanID)}&URI=${encodeURIComponent('myais://home')}`;
+
+            decodedUriText.textContent = decodedUrl;
+            encodedUriText.textContent = encodedUrl;
+
+            // Update detailed breakdown components
+            detailScheme.textContent = 'https';
+            detailHost.textContent = 'mws-stg.adldigitalservice.com';
+            detailPath.textContent = '/openWebToApp';
+            
+            if (cleanID) {
+                detailPublicID.textContent = cleanID;
+                detailPublicID.title = cleanID;
+                detailPublicID.className = 'font-mono font-semibold text-indigo-600 dark:text-indigo-400 truncate max-w-[160px]';
+            } else {
+                detailPublicID.textContent = '(empty)';
+                detailPublicID.title = '';
+                detailPublicID.className = 'font-mono font-semibold text-slate-400 italic truncate max-w-[160px]';
+            }
+
+            detailTargetURI.textContent = 'myais://home';
+            detailTargetURI.title = 'myais://home';
+
+            qrcodeContainer.innerHTML = '';
+            qrInstance = new QRCode(qrcodeContainer, {
+                text: encodedUrl,
+                width: 180,
+                height: 180,
+                colorDark: "#0b0f19",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+
+        // ==============================
+        // Shared History - Firebase Firestore
+        // ==============================
+        const HISTORY_COLLECTION = 'deeplink_history';
+        let historyUnsubscribe = null;
+
+        function historyPayload(publicID) {
+            const cleanID = String(publicID || '').trim();
+            const decodedUrl = `https://mws-stg.adldigitalservice.com/openWebToApp?publicID=${cleanID}&URI=myais://home`;
+            const encodedUrl = `https://mws-stg.adldigitalservice.com/openWebToApp?publicID=${encodeURIComponent(cleanID)}&URI=${encodeURIComponent('myais://home')}`;
+
+            return {
+                id: cleanID,
+                decodedUrl,
+                encodedUrl,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+        }
+
+        async function saveToHistory(publicID) {
+            if (!publicID) return;
+
+            if (!firebaseReady || !db) {
+                showToast('Firebase is not configured');
+                console.warn('Firebase config is still using placeholders.');
+                return;
+            }
+
+            try {
+                // Keep one current record per Public ID.
+                const existing = await db.collection(HISTORY_COLLECTION)
+                    .where('id', '==', publicID)
+                    .get();
+
+                const batch = db.batch();
+                existing.forEach(doc => batch.delete(doc.ref));
+
+                const newRef = db.collection(HISTORY_COLLECTION).doc();
+                batch.set(newRef, historyPayload(publicID));
+                await batch.commit();
+
+                showToast('Generated and saved to shared history');
+            } catch (error) {
+                console.error('Failed to save history:', error);
+                showToast('Generated, but Firebase history save failed');
+            }
+        }
+
+        function subscribeHistory() {
+            if (!firebaseReady || !db) {
+                historyData = [];
+                renderHistory();
+                return;
+            }
+
+            if (historyUnsubscribe) historyUnsubscribe();
+
+            historyUnsubscribe = db.collection(HISTORY_COLLECTION)
+                .orderBy('createdAt', 'desc')
+                .limit(50)
+                .onSnapshot(snapshot => {
+                    historyData = snapshot.docs.map(doc => ({
+                        firestoreId: doc.id,
+                        ...doc.data(),
+                        timestamp: doc.data().createdAt?.toDate
+                            ? doc.data().createdAt.toDate().toLocaleString([], {
+                                year: 'numeric',
+                                month: '2-digit',
+                                day: '2-digit',
+                                hour: '2-digit',
+                                minute: '2-digit'
+                            })
+                            : 'Saving...'
+                    }));
+                    renderHistory();
+                }, error => {
+                    console.error('History listener failed:', error);
+                    showToast('Cannot load shared Firebase history');
+                });
+        }
+
+        function renderHistory() {
+            historyCount.textContent = historyData.length;
+
+            historyList.innerHTML = '';
+
+            if (historyData.length === 0) {
+                historyList.innerHTML = '<div class="p-4 text-center text-xs text-slate-400 italic">No history yet. Generate a QR to save one.</div>';
+                return;
+            }
+
+            historyData.forEach((item) => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-indigo-500 dark:hover:border-indigo-500 transition-all group';
+
+                historyItem.innerHTML = `
+                    <div class="flex items-center gap-3 overflow-hidden min-w-0">
+                        <div class="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-history text-xs"></i>
+                        </div>
+                        <div class="truncate">
+                            <p class="text-xs font-semibold text-slate-800 dark:text-slate-200 truncate group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">${escapeHtml(item.id || '')}</p>
+                            <p class="text-[10px] text-slate-400">${escapeHtml(item.timestamp || '')}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-1 shrink-0">
+                        <button type="button" class="load-history text-xs text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium px-2 py-1" title="Load this Public ID">
+                            <i class="fa-solid fa-rotate-left"></i> Load
+                        </button>
+                        <a href="${escapeHtml(item.encodedUrl || '#')}" target="_blank" rel="noopener noreferrer"
+                           class="text-xs bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-2.5 py-1.5 rounded-lg transition-all"
+                           title="Open deep link">
+                            <i class="fa-solid fa-up-right-from-square"></i> Open Link
+                        </a>
+                    </div>
+                `;
+
+                historyItem.querySelector('.load-history').addEventListener('click', () => {
+                    publicIDInput.value = item.id || '';
+                    presetSelect.value = '';
+                    generateQR(item.id || '');
+                    showToast(`Loaded ID: ${item.id}`);
+                });
+
+                historyList.appendChild(historyItem);
+            });
+        }
+
+        async function clearHistory() {
+            if (!firebaseReady || !db) {
+                showToast('Firebase is not configured');
+                return;
+            }
+
+            try {
+                const snapshot = await db.collection(HISTORY_COLLECTION).limit(100).get();
+                if (snapshot.empty) {
+                    showToast('History is already empty');
+                    return;
+                }
+
+                const batch = db.batch();
+                snapshot.forEach(doc => batch.delete(doc.ref));
+                await batch.commit();
+                showToast('Shared history cleared');
+            } catch (error) {
+                console.error('Failed to clear history:', error);
+                showToast('Failed to clear shared history');
+            }
+        }
+
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+        }
+
+        // Copy to clipboard helper
+        window.copyToClipboard = function(elementId, btnElement) {
+            const textToCopy = document.getElementById(elementId).textContent;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    showCopyFeedback(btnElement);
+                }).catch(() => {
+                    fallbackCopy(textToCopy, btnElement);
+                });
+            } else {
+                fallbackCopy(textToCopy, btnElement);
+            }
+        };
+
+        function fallbackCopy(text, btnElement) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showCopyFeedback(btnElement);
+            } catch (err) {
+                showToast('Failed to copy text');
+            }
+            document.body.removeChild(textArea);
+        }
+
+        function showCopyFeedback(btnElement) {
+            const originalHTML = btnElement.innerHTML;
+            btnElement.innerHTML = `<i class="fa-solid fa-check text-emerald-500"></i> Copied!`;
+            btnElement.classList.add('text-emerald-500');
+            showToast('Copied to clipboard successfully!');
+            setTimeout(() => {
+                btnElement.innerHTML = originalHTML;
+                btnElement.classList.remove('text-emerald-500');
+            }, 2000);
+        }
+
+        // QR is hidden by default; user can reveal it after generation.
+        toggleQrBtn.addEventListener('click', () => {
+            const isHidden = qrPanel.style.display === 'none';
+            qrPanel.style.display = isHidden ? 'flex' : 'none';
+            toggleQrBtn.innerHTML = isHidden
+                ? '<i class="fa-solid fa-eye-slash"></i> Hide QR'
+                : '<i class="fa-solid fa-eye"></i> Show QR';
+        });
+
+        // Event Listeners
+        presetSelect.addEventListener('change', (e) => {
+            const val = e.target.value;
+            if (val) {
+                publicIDInput.value = val;
+                generateQR(val);
+            }
+        });
+
+        publicIDInput.addEventListener('input', (e) => {
+            const val = e.target.value.trim();
+            generateQR(val);
+        });
+
+        qrForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const val = publicIDInput.value.trim();
+            if (!val) {
+                showToast('Please enter a valid Public ID');
+                return;
+            }
+            generateQR(val);
+            saveToHistory(val);
+        });
+
+        resetBtn.addEventListener('click', () => {
+            publicIDInput.value = '';
+            presetSelect.selectedIndex = 0;
+            generateQR('');
+            qrPanel.style.display = 'none';
+            toggleQrBtn.innerHTML = '<i class="fa-solid fa-eye"></i> Show QR';
+            showToast('Form reset');
+        });
+
+        clearHistoryBtn.addEventListener('click', () => {
+            if (confirm('Are you sure you want to clear shared history for all devices?')) {
+                clearHistory();
+            }
+        });
+
+        downloadQrBtn.addEventListener('click', () => {
+            const canvas = qrcodeContainer.querySelector('canvas');
+            const img = qrcodeContainer.querySelector('img');
+            
+            let dataUrl = '';
+            if (canvas) {
+                dataUrl = canvas.toDataURL('image/png');
+            } else if (img) {
+                dataUrl = img.src;
+            }
+
+            if (!dataUrl) {
+                showToast('No QR code available to download');
+                return;
+            }
+
+            const link = document.createElement('a');
+            link.href = dataUrl;
+            link.download = `qrcode_${publicIDInput.value.trim() || 'default'}.png`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast('QR Code downloaded successfully!');
+        });
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            initPresets();
+            subscribeHistory();
+            renderHistory();
+            publicIDInput.value = '';
+            presetSelect.selectedIndex = 0;
+            generateQR('');
+            qrPanel.style.display = 'none';
+            toggleQrBtn.innerHTML = '<i class="fa-solid fa-eye"></i> Show QR';
+        });
+    </script>
+
+</body></html>
